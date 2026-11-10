@@ -14,12 +14,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 /* ---------- two languages ---------- */
 html[lang="en"] [data-lang="fr"], html[lang="fr"] [data-lang="en"] { display: none; }
-/* in headlines, the other language is shown as a small label above */
 .bi { display: flex; flex-direction: column; }
-.bi [data-lang] { display: block; }
-html[lang="en"] .bi [data-lang="fr"], html[lang="fr"] .bi [data-lang="en"] {
-  display: block; order: -1; font-family: var(--mono); font-weight: 400; font-size: 11.5px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--faint); margin-bottom: 6px; line-height: 1.4; }
 
 .wrap { max-width: 1020px; margin: 0 auto; padding: 0 24px; }
 
