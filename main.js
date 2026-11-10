@@ -3,8 +3,8 @@
 /* ---------- language ---------- */
 const toggle = document.getElementById("toggle");
 const titles = {
-  en: "Fatine Kassabi — Data Science, Applied AI, Machine Learning",
-  fr: "Fatine Kassabi — Data Science, IA appliquée, Machine Learning",
+  en: "Fatine Kassabi — Data Scientist, Machine Learning & NLP",
+  fr: "Fatine Kassabi — Data Scientist, Machine Learning & NLP",
 };
 function setLang(lang) {
   document.documentElement.lang = lang;
