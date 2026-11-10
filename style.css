@@ -96,7 +96,7 @@ summary:hover { color: var(--red); border-bottom-color: var(--red); }
   border: 1.5px solid var(--ink); border-radius: 9px; padding: 10px 0; background: var(--ink); color: var(--cream); }
 .notice .cta.ghosted { background: transparent; color: var(--ink); }
 .notice .cta:hover { opacity: .85; }
-.mail { font-family: var(--mono); font-size: 11.5px; color: var(--faint); text-align: center; margin-top: 12px !important; overflow-wrap: anywhere; }
+.mail { font-family: var(--mono); font-size: 11.5px; color: var(--faint); text-align: center; margin: 8px 0 0 !important; overflow-wrap: anywhere; }
 .item { border-top: 1px solid var(--hair); padding: 12px 0; }
 .item .t { font-weight: 500; font-size: 16.5px; line-height: 1.35; }
 .item .s { font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin-top: 2px; }
