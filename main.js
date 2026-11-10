@@ -270,3 +270,17 @@ document.querySelectorAll(".live[data-src]").forEach(box => {
   const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { render(); io.disconnect(); } }, { threshold: 0.25 });
   io.observe(box);
 })();
+
+/* ---------- email buttons: also copy the address (mailto does nothing without a mail app) ---------- */
+document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+  a.addEventListener("click", () => {
+    const email = a.getAttribute("href").slice(7);
+    navigator.clipboard?.writeText(email).then(() => {
+      const fr = document.documentElement.lang === "fr";
+      const old = a.innerHTML;
+      if (a.classList.contains("ico")) { a.title = fr ? "Adresse copiée" : "Email copied"; return; }
+      a.textContent = fr ? "ADRESSE COPIÉE ✓" : "EMAIL COPIED ✓";
+      setTimeout(() => { a.innerHTML = old; }, 2000);
+    }).catch(() => {});
+  });
+});
