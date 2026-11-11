@@ -1,8 +1,8 @@
 /* ===== Fatine Kassabi — newspaper front page (fonts, colours and layout after seanchen.io) ===== */
 :root {
-  --cream: #FAF7F0; --ink: #141310; --faint: #716C61; --rule: #141310;
-  --hair: #D8D3C6; --red: #B3261E; --signal: #F6B8CB;  /* pink highlight on the active language */ --mid: #6B6A65;
-  --display: "Fraunces", Georgia, serif;
+  --cream: #EEEBE4; --ink: #1B2440; --faint: #66625A; --rule: #1B2440;
+  --hair: #D6D2C8; --red: #1D3FA8; --signal: #BFD8EE;  /* pink highlight on the active language */ --mid: #57534B;
+  --display: "Playfair Display", Georgia, serif;
   --serif: "Newsreader", Georgia, serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
 }
@@ -40,6 +40,9 @@ h1 { font-family: var(--display); font-weight: 900; font-size: clamp(30px, 9vw, 
 .ico { display: grid; place-items: center; color: var(--ink); opacity: .62; text-decoration: none; }
 .ico svg { width: var(--s); height: var(--s); fill: currentColor; }
 .ico:hover { opacity: 1; color: var(--red); }
+.otw { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--ink); border-radius: 99px; padding: 2px 9px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; white-space: nowrap; }
+.otw i { width: 7px; height: 7px; border-radius: 50%; background: #E08A2E; }
 
 /* ---------- columns ---------- */
 .paper-grid { display: grid; grid-template-columns: 1.7fr 1fr; margin-top: 22px; }
@@ -117,7 +120,7 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 @media (min-width: 821px) {
   body { padding-bottom: 56px; }
   .mobile-cta { margin-inline: auto; bottom: 16px; width: min(480px, calc(100% - 32px)); border: 1.5px solid var(--ink); border-radius: 14px;
-    padding: 10px; box-shadow: 0 6px 24px rgba(20,19,16,.14); }
+    padding: 10px; box-shadow: 0 6px 24px rgba(27,36,64,.14); }
 }
 @media (max-width: 820px) {
   .paper-grid { grid-template-columns: 1fr; margin-top: 12px; }
@@ -298,3 +301,30 @@ html:not(.js) .idm { display: none; }
 .live iframe { height: 560px; }
 .slide svg.dg { display: block; width: 100%; height: auto; margin: 0 0 12px; }
 .paper-grid > * { min-width: 0; }
+
+/* ---------- extra style ---------- */
+body { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .32  0 0 0 0 .27  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.projects { counter-reset: proj; }
+.story { counter-increment: proj; position: sticky; top: 24px; background: var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .32  0 0 0 0 .27  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); border: 1.5px solid var(--rule) !important;
+  border-radius: 14px; padding: 22px 24px 8px !important; margin-bottom: 32px; box-shadow: 0 -8px 28px rgba(27,36,64,.12);
+  transform-origin: 50% 0; will-change: transform; }
+.story > .txt::before { content: counter(proj, decimal-leading-zero); display: block; font-family: var(--display); font-weight: 900;
+  font-size: 56px; line-height: 1; color: var(--red); opacity: .22; margin-bottom: 6px; }
+.story::after { content: ""; position: absolute; left: -1.5px; top: 22px; bottom: 22px; width: 3px; background: var(--red);
+  transform: scaleY(0); transform-origin: top; transition: transform .35s ease; }
+.story:hover::after { transform: scaleY(1); }
+.story h3 { transition: color .25s; }
+.story:hover h3 { color: var(--red); }
+body { font-variant-numeric: lining-nums; }
+.notice { background: #DCE6F0; }
+.hand { font-family: "Caveat", cursive; font-size: 24px; line-height: 1; color: var(--red); text-align: right; margin: 4px 14px 10px 0 !important; }
+.signoff { font-family: "Caveat", cursive; font-weight: 700; font-style: normal; font-size: 30px; color: var(--red); display: flex; align-items: center; gap: 10px; }
+.live-dot { background: #E08A2E; }
+
+/* ---------- wide project cards: text left, figure/demo right ---------- */
+.projects.col { padding: 0; border: none; margin-top: 18px; }
+.story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 36px; align-items: start; }
+.story > .side { padding-top: 8px; }
+.record { margin-top: 12px; grid-template-columns: 1fr 1fr; }
+.record > .col:first-child { padding-left: 0; border-left: none; }
+@media (max-width: 820px) { .story { grid-template-columns: 1fr; } .record { grid-template-columns: 1fr; } }
