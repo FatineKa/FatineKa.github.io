@@ -169,50 +169,57 @@
         <h3><span data-lang="en">Uplift Modeling for Marketing Optimization</span><span data-lang="fr">Modélisation d'uplift pour l'optimisation marketing</span></h3>
         <p class="deck"><span data-lang="en">Measuring what advertising causes, not what it is correlated with</span><span data-lang="fr">Mesurer ce que la publicité provoque, et non ce à quoi elle est corrélée</span></p>
         <p>
-          <span data-lang="en">Criteo's randomized advertising experiment, about 13.9 million users. Four uplift models compared with Qini and AUUC, then a profit simulation of targeting strategies. Uplift models ranked users better than random.</span>
-          <span data-lang="fr">L'expérience publicitaire randomisée de Criteo, environ 13,9 millions d'utilisateurs. Quatre modèles d'uplift comparés par Qini et AUUC, puis une simulation du profit des stratégies de ciblage. Les modèles d'uplift classent les utilisateurs mieux que le hasard.</span>
+          <span data-lang="en">Criteo's randomized advertising experiment, all 13.9 million users. A Step Functions pipeline runs a randomization check in Snowflake, then SageMaker tuning and training of four uplift models, compared with Qini and a profit simulation. Uplift models rank users better than random, but never earn more than targeting likely buyers.</span>
+          <span data-lang="fr">L'expérience publicitaire randomisée de Criteo, sur les 13,9 millions d'utilisateurs. Un pipeline Step Functions lance un contrôle de randomisation dans Snowflake, puis le réglage et l'entraînement de quatre modèles d'uplift sur SageMaker, comparés par Qini et par une simulation de profit. Les modèles d'uplift classent mieux que le hasard, mais ne rapportent jamais plus qu'un ciblage des acheteurs probables.</span>
         </p>
         <details>
           <summary><span data-lang="en">Read more</span><span data-lang="fr">Lire la suite</span></summary>
           <div class="more">
             <p>
-              <span data-lang="en">A 3-million-row sample (0.29% conversion, 85% treated / 15% control); randomisation checked with standardised mean differences. Advertising raised conversion by +0.00113 (95% CI 0.00098–0.00127), a 57.5% relative lift.</span>
-              <span data-lang="fr">Un échantillon de 3 millions de lignes (0,29&nbsp;% de conversion, 85&nbsp;% traités / 15&nbsp;% témoins) ; randomisation vérifiée par différences moyennes standardisées. La publicité augmente la conversion de +0,00113 (IC 95&nbsp;% 0,00098–0,00127), soit +57,5&nbsp;%.</span>
+              <span data-lang="en">13,979,592 users (40,774 converters, 85% treated / 15% control); randomisation checked with standardised mean differences. Advertising raised conversion by +0.00115 (95% CI 0.00108–0.00122), a 59.4% relative lift.</span>
+              <span data-lang="fr">13&nbsp;979&nbsp;592 utilisateurs (40&nbsp;774 acheteurs, 85&nbsp;% traités / 15&nbsp;% témoins) ; randomisation vérifiée par différences moyennes standardisées. La publicité augmente la conversion de +0,00115 (IC 95&nbsp;% 0,00108–0,00122), soit +59,4&nbsp;%.</span>
             </p>
             <table class="results">
-              <caption><span data-lang="en">Held-out test set</span><span data-lang="fr">Jeu de test</span></caption>
+              <caption><span data-lang="en">Held-out test set, 4.19 million users</span><span data-lang="fr">Jeu de test, 4,19 millions d'utilisateurs</span></caption>
               <thead><tr><th><span data-lang="en">Model</span><span data-lang="fr">Modèle</span></th><th>Qini</th><th>AUUC</th></tr></thead>
               <tbody>
-                <tr><td>S-learner / LightGBM</td><td>+0.000352</td><td>748.6</td></tr>
-                <tr><td>T-learner / logistic</td><td>+0.000352</td><td>748.3</td></tr>
-                <tr><td>T-learner / LightGBM</td><td>+0.000220</td><td>629.5</td></tr>
-                <tr><td>Class transformation</td><td>−0.000133</td><td>311.9</td></tr>
+                <tr><td>S-learner / LightGBM</td><td>+0.000389</td><td>3,685</td></tr>
+                <tr><td>T-learner / logistic</td><td>+0.000379</td><td>3,641</td></tr>
+                <tr><td>T-learner / LightGBM</td><td>+0.000314</td><td>3,372</td></tr>
+                <tr><td>Class transformation</td><td>−0.000153</td><td>1,412</td></tr>
               </tbody>
             </table>
             <p>
-              <span data-lang="en">Three of the four models beat random targeting. Targeting everyone lost money.</span>
-              <span data-lang="fr">Trois des quatre modèles battent un ciblage aléatoire. Cibler tout le monde fait perdre de l'argent.</span>
+              <span data-lang="en">Three of the four models beat random targeting, yet uplift targeting never earns significantly more than propensity targeting. The reason: both lists pick mostly the same people, because the users ads move most are users already likely to buy. On an earlier 3-million-row sample, propensity looked better from 35% to 84% of the audience; on the full data that gap disappears. Hyperparameters were chosen by SageMaker automatic model tuning on validation Qini.</span>
+              <span data-lang="fr">Trois des quatre modèles battent un ciblage aléatoire, mais le ciblage par uplift ne rapporte jamais significativement plus que le ciblage par propension. La raison : les deux listes choisissent surtout les mêmes personnes, car les utilisateurs que la publicité fait le plus changer sont ceux qui allaient déjà probablement acheter. Sur un ancien échantillon de 3 millions de lignes, la propension semblait meilleure de 35&nbsp;% à 84&nbsp;% de l'audience ; sur les données complètes, cet écart disparaît. Hyperparamètres choisis par le réglage automatique de SageMaker, sur le Qini de validation.</span>
             </p>
           </div>
         </details>
-        <p class="byline">Python · scikit-learn · LightGBM · Streamlit · Snowflake · AWS · <a href="https://retail-media-uplift-plus.streamlit.app/"><span data-lang="en">Dashboard</span><span data-lang="fr">Tableau de bord</span> ↗</a> · <a href="https://github.com/FatineKa/retail-media-uplift">GitHub ↗</a></p>
+        <p class="byline">Python · scikit-learn · LightGBM · Snowflake · AWS SageMaker · Step Functions · Lambda · Streamlit · <a href="https://retail-media-uplift-plus.streamlit.app/"><span data-lang="en">Dashboard</span><span data-lang="fr">Tableau de bord</span> ↗</a> · <a href="https://github.com/FatineKa/retail-media-uplift">GitHub ↗</a></p>
         </div>
         <div class="side">
         <figure class="fig">
           <div class="slides">
             <div class="slide">
-              <p class="fig-k">FIG. 2A · <span data-lang="en">Profit at a 2% budget, same held-out users</span><span data-lang="fr">Profit avec 2&nbsp;% du budget, mêmes utilisateurs de test</span></p>
-              <div class="hb" style="--v:0.733;--d:0"><span><span data-lang="en">Industry default</span><span data-lang="fr">Pratique courante</span></span><span class="track"><i></i></span><b data-to="10635" data-pre="$" data-suf="" data-dec="0">$10,635</b></div>
-              <div class="hb hl" style="--v:0.943;--d:1"><span><span data-lang="en">Uplift targeting</span><span data-lang="fr">Ciblage par uplift</span></span><span class="track"><i></i></span><b data-to="13669" data-pre="$" data-suf="" data-dec="0">$13,669</b></div>
-              <div class="bigs one"><div data-in style="--d:4"><b class="red">+$3,034</b><span><span data-lang="en">difference, not significant (95% CI −$4,617 to +$8,665)</span><span data-lang="fr">d'écart, non significatif (IC 95&nbsp;% −4&nbsp;617 à +8&nbsp;665&nbsp;$)</span></span></div></div>
+              <p class="fig-k">FIG. 2A · <span data-lang="en">Profit at a 6% budget, same held-out users</span><span data-lang="fr">Profit avec 6&nbsp;% du budget, mêmes utilisateurs de test</span></p>
+              <div class="hb" style="--v:0.970;--d:0"><span><span data-lang="en">Industry default</span><span data-lang="fr">Pratique courante</span></span><span class="track"><i></i></span><b data-to="97012" data-pre="$" data-suf="" data-dec="0">$97,012</b></div>
+              <div class="hb hl" style="--v:0.886;--d:1"><span><span data-lang="en">Uplift targeting</span><span data-lang="fr">Ciblage par uplift</span></span><span class="track"><i></i></span><b data-to="88624" data-pre="$" data-suf="" data-dec="0">$88,624</b></div>
+              <div class="bigs one"><div data-in style="--d:4"><b class="red">−$8,389</b><span><span data-lang="en">for uplift targeting (95% CI −$12,834 to −$3,801), 4.19M test users</span><span data-lang="fr">pour le ciblage par uplift (IC 95&nbsp;% −12&nbsp;834 à −3&nbsp;801&nbsp;$), 4,19&nbsp;M d'utilisateurs de test</span></span></div></div>
             </div>
             <div class="slide">
               <p class="fig-k">FIG. 2B · <span data-lang="en">Qini coefficient on the test set (×10⁻⁴)</span><span data-lang="fr">Coefficient de Qini sur le jeu de test (×10⁻⁴)</span></p>
-              <div class="dv" style="--d:0"><span>S-learner · LightGBM</span><span class="dtrack"><i class="pos" style="left:50%;width:44%"></i></span><b>+3.52</b></div>
-              <div class="dv" style="--d:1"><span>T-learner · logistic</span><span class="dtrack"><i class="pos" style="left:50%;width:44%"></i></span><b>+3.52</b></div>
-              <div class="dv" style="--d:2"><span>T-learner · LightGBM</span><span class="dtrack"><i class="pos" style="left:50%;width:27.5%"></i></span><b>+2.20</b></div>
-              <div class="dv" style="--d:3"><span>Class transformation</span><span class="dtrack"><i class="neg" style="right:50%;width:16.6%"></i></span><b>−1.33</b></div>
+              <div class="dv" style="--d:0"><span>S-learner · LightGBM</span><span class="dtrack"><i class="pos" style="left:50%;width:48.6%"></i></span><b>+3.89</b></div>
+              <div class="dv" style="--d:1"><span>T-learner · logistic</span><span class="dtrack"><i class="pos" style="left:50%;width:47.4%"></i></span><b>+3.79</b></div>
+              <div class="dv" style="--d:2"><span>T-learner · LightGBM</span><span class="dtrack"><i class="pos" style="left:50%;width:39.3%"></i></span><b>+3.14</b></div>
+              <div class="dv" style="--d:3"><span>Class transformation</span><span class="dtrack"><i class="neg" style="right:50%;width:19.1%"></i></span><b>−1.53</b></div>
               <p class="fig-note" data-in style="--d:6"><span data-lang="en">Left of the line: worse than random targeting.</span><span data-lang="fr">À gauche de la ligne : pire qu'un ciblage aléatoire.</span></p>
+            </div>
+            <div class="slide">
+              <p class="fig-k">FIG. 2C · <span data-lang="en">Same users in both targeting lists</span><span data-lang="fr">Mêmes utilisateurs dans les deux listes de ciblage</span></p>
+              <div class="hb" style="--v:0.82;--d:0"><span>Top 6%</span><span class="track"><i></i></span><b data-to="82" data-pre="" data-suf="%" data-dec="0">82%</b></div>
+              <div class="hb" style="--v:0.81;--d:1"><span>Top 20%</span><span class="track"><i></i></span><b data-to="81" data-pre="" data-suf="%" data-dec="0">81%</b></div>
+              <div class="hb hl" style="--v:0.89;--d:2"><span>Top 35%</span><span class="track"><i></i></span><b data-to="89" data-pre="" data-suf="%" data-dec="0">89%</b></div>
+              <p class="fig-note" data-in style="--d:5"><span data-lang="en">Uplift and propensity targeting pick mostly the same people, so uplift has little left to improve.</span><span data-lang="fr">Les ciblages par uplift et par propension choisissent surtout les mêmes personnes : l'uplift a peu de marge pour faire mieux.</span></p>
             </div>
           </div>
           <div class="fig-nav"><button type="button" class="prev" aria-label="Previous">←</button><span class="dots"></span><button type="button" class="next" aria-label="Next">→</button></div>
@@ -480,7 +487,7 @@
       <div class="item"><div class="s"><span data-lang="en">Programming</span><span data-lang="fr">Programmation</span></div><div class="t">Python, R, SQL, Bash, Linux</div></div>
       <div class="item"><div class="s">Machine Learning</div><div class="t">scikit-learn, PyTorch, XGBoost, LightGBM, NumPy, pandas</div></div>
       <div class="item"><div class="s"><span data-lang="en">AI &amp; NLP</span><span data-lang="fr">IA &amp; NLP</span></div><div class="t">LLMs, RAG, Hugging Face, LangChain, embeddings</div></div>
-      <div class="item"><div class="s"><span data-lang="en">Data &amp; infrastructure</span><span data-lang="fr">Données &amp; infrastructure</span></div><div class="t">Snowflake, MySQL, xarray, Docker, Git, GitHub Actions, AWS (SageMaker, Lambda, S3)</div></div>
+      <div class="item"><div class="s"><span data-lang="en">Data &amp; infrastructure</span><span data-lang="fr">Données &amp; infrastructure</span></div><div class="t">Snowflake, MySQL, xarray, Docker, Git, GitHub Actions, AWS (SageMaker, Lambda, Step Functions, S3)</div></div>
       <div class="item"><div class="s"><span data-lang="en">Tools</span><span data-lang="fr">Outils</span></div><div class="t">FastAPI, Streamlit, ChromaDB, pytest</div></div>
 
       <p class="kicker side-kicker"><span data-lang="en">Interests</span><span data-lang="fr">Centres d'intérêt</span></p>
